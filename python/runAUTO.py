@@ -317,7 +317,7 @@ class runAUTO:
             execfile = equation + ".exe"
         if not os.path.exists(execfile) or self.__newer(deps,execfile):
             if src[-1] == 'c':
-                cmd = "%s -L%s %s %s %s.o -o %s %s -lauto_c"%(var["FC"],libdir,
+                cmd = "%s -L%s %s %s %s.o -o %s %s -lauto_c -lgsl -lgslcblas"%(var["FC"],libdir,
                                    var["FFLAGS"],var["OPT"],equation,execfile,libs)
             else:
                 cmd = "%s %s %s %s.o -o %s %s"%(var["FC"],var["FFLAGS"],var["OPT"],

@@ -31,8 +31,8 @@ $(EXE): $(OBJ) $(LIBS)
 	  echo $(FC) $(FFLAGS) $(OPT) $(OBJ) -o $@ '$(LIBS)'; \
 	  $(FC) $(FFLAGS) $(OPT) $(OBJ) -o $@ $(LIBS); \
 	elif [ -f $(EQUATION_NAME).c ]; then \
-	  echo $(FC) -L$(AUTO_DIR)/lib $(FFLAGS) $(OPT) $(OBJ) -o $@ '$(LIBS)' -lauto_c; \
-	  $(FC) -L$(AUTO_DIR)/lib $(FFLAGS) $(OPT) $(OBJ) -o $@ $(LIBS) -l auto_c; \
+	  echo $(FC) -L$(AUTO_DIR)/lib $(FFLAGS) $(OPT) $(OBJ) -o $@ '$(LIBS)' -lauto_c -lgsl -lgslcblas; \
+	  $(FC) -L$(AUTO_DIR)/lib $(FFLAGS) $(OPT) $(OBJ) -o $@ $(LIBS) -l auto_c -lgsl -lgslcblas; \
 	else \
 	  echo $(EQUATION_NAME).f does not exist.; \
 	fi
