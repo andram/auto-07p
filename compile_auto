@@ -3,3 +3,6 @@
 git clean -fxd
 ./configure --with-mpi
 make
+
+cd doc
+make
