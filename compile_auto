@@ -1,0 +1,5 @@
+#!/bin/sh
+
+git clean -fxd
+./configure --with-mpi
+make
