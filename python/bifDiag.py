@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # this is an enhanced list of bifurcation branches:
 # the labels contain the solutions and diagnostics as well
 import AUTOutil

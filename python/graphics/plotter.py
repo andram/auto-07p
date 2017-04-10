@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 try:
     from graphics import grapher_mpl as grapher
 except ImportError:

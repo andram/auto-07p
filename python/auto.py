@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 # Some ways to run AUTO:
 # a) python auto.py

@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 try:
     from ConfigParser import ConfigParser
 except ImportError: # Python 3
@@ -396,7 +396,7 @@ class array(object):
             return self._arrayslice().tolist()
         return [e.tolist() for e in self]
 
-def rank(a):
+def ndim(a):
     return len(a.shape)
 
 def reshape(a,shape):

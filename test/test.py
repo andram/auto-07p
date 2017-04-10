@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #This is Randy Paffenroths attempt to make a better regression
 #tester for AUTO.

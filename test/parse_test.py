@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #global imports for the whole file
 import re,sys,getopt,os
 try:

@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 import AUTOExceptions
 
 modules = ["parseB", "parseS", "parseBandS", "parseC", "parseH",

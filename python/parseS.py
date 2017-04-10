@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 #    Visualization for Bifurcation Manifolds
 #    Copyright (C) 1997 Randy Paffenroth and John Maddocks
 #

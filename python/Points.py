@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # Point class used by parseB and parseS
 # derived from PyDSTool
 """Point and Pointset enhanced array classes.
@@ -19,7 +19,7 @@ import sys
 numpyimported = False
 ndarray = AUTOutil.ArrayType
 def importnumpy():
-    global N, numpyimported, fromstring, ndarray, array, rank, take, less
+    global N, numpyimported, fromstring, ndarray, array, ndim, take, less
     global float64, int32, array2string, shape, zeros, ravel, bool8
     global _seq_types, _num_equivtype, linalg
     fromstring = None
@@ -74,8 +74,8 @@ def importnumpy():
             N = AUTOutil
             float64, int32, bool8 = 'd', 'i', 'B'
         ndarray = N.ArrayType
-    rank, array, take, array2string, shape, zeros, less, ravel = (
-        N.rank, N.array, N.take, N.array2string, N.shape, N.zeros, N.less,
+    ndim, array, take, array2string, shape, zeros, less, ravel = (
+        N.ndim, N.array, N.take, N.array2string, N.shape, N.zeros, N.less,
         N.ravel)
     _seq_types = (list, tuple, ndarray)
     _num_equivtype = {type(1.0): float64, type(1): int32,
@@ -458,13 +458,13 @@ class Point(object):
                 assert not isinstance(coorddict[c], (list, tuple)), 'type mismatch'
                 datalist.append(coorddict[c][0])
             self.coordarray = array(datalist, self.coordtype)
-            r = rank(self.coordarray)
+            r = ndim(self.coordarray)
             if r == 1:
                 pass
             elif r == 0:
                 self.coordarray = ravel(self.coordarray)
             else:
-                raise ValueError("Invalid rank for coordinate array: %i"%r)
+                raise ValueError("Invalid ndim for coordinate array: %i"%r)
             assert self.dimension == self.coordarray.shape[0], "Invalid coord array"
         elif 'coordarray' in kw:
             # 'coordtype' key is optional unless 'array' is actually a list,
@@ -488,13 +488,13 @@ class Point(object):
                 array_temp = array(kw['coordarray'], self.coordtype)
             else:
                 raise TypeError('Coordinate type %s not valid for Point'%str(type(kw['coordarray'])))
-            r = rank(array_temp)
+            r = ndim(array_temp)
             if r == 1:
                 self.coordarray = array_temp
             elif r == 0:
                 self.coordarray = ravel(array_temp)
             else:
-                raise ValueError("Invalid rank for coordinate array: %i"%r)
+                raise ValueError("Invalid ndim for coordinate array: %i"%r)
             self.dimension = self.coordarray.shape[0]
             if 'coordnames' in kw:
                 if isinstance(kw['coordnames'], str):
@@ -965,7 +965,7 @@ class Pointset(Point):
             elif isinstance(vals, ndarray):
                 # call 'array' constructor to ensure copy is made in case
                 # either array is independently changed.
-                if rank(vals) == 0:
+                if ndim(vals) == 0:
                     self.indepvararray = array(ravel(vals))
                 else:
                     self.indepvararray = array(vals)
@@ -993,13 +993,13 @@ class Pointset(Point):
             except KeyError:
                 raise TypeError('Independent variable type '
                                     '%s not valid'%self.indepvararray.dtype)
-            r=rank(self.indepvararray)
+            r=ndim(self.indepvararray)
             if r == 1:
                 pass
             elif r == 0:
                 self.indepvararray = ravel(self.indepvararray)
             else:
-                raise ValueError("Invalid rank for "
+                raise ValueError("Invalid ndim for "
                                 "independent variable array %i"%r)
             # if user gave independent variable array in reverse order,
             # then we'll reverse this and the coord arrays and the labels
@@ -1058,7 +1058,7 @@ class Pointset(Point):
                         raise ValueError('All coordinate arrays must have same length')
                 datalist.append(xs)
             self.coordarray = array(datalist, self.coordtype)
-            r = rank(self.coordarray)
+            r = ndim(self.coordarray)
             if r == 2:
                 pass
             elif r == 1:
@@ -1066,7 +1066,7 @@ class Pointset(Point):
             elif r == 0:
                 self.coordarray = array([ravel(self.coordarray)], self.coordtype)
             else:
-                raise ValueError("Invalid rank for coordinate array: %i"%r)
+                raise ValueError("Invalid ndim for coordinate array: %i"%r)
             assert self.dimension == self.coordarray.shape[0], "Invalid coord array"
         elif 'coordarray' in kw:
             if not isinstance(kw['coordarray'], _seq_types):
@@ -1083,7 +1083,7 @@ class Pointset(Point):
             # calling 'array' constructor creates a copy if original or new
             # array is altered
             array_temp = array(kw['coordarray'], self.coordtype)
-            r = rank(array_temp)
+            r = ndim(array_temp)
             if r == 2:
                 self.coordarray = array_temp
             elif r == 1:
@@ -1091,7 +1091,7 @@ class Pointset(Point):
             elif r == 0:
                 self.coordarray = array([ravel(array_temp)], self.coordtype)
             else:
-                raise ValueError("Invalid rank for coordinate array %i"%r)
+                raise ValueError("Invalid ndim for coordinate array %i"%r)
             self.dimension = self.coordarray.shape[0]
             if 'coordnames' in kw:
                 if isinstance(kw['coordnames'], str):
@@ -2568,10 +2568,10 @@ def arrayToPointset(a, vnames=None, ia=None, iname=""):
 
     Coordinate (and independent variable) names are optional: the defaults are
     the array indices (and 't' for the independent variable)."""
-    if rank(a) > 2:
-        raise ValueError("Cannot convert arrays of rank > 2")
-    if rank(a) == 0:
-        raise ValueError("Cannot convert arrays of rank 0")
+    if ndim(a) > 2:
+        raise ValueError("Cannot convert arrays of ndim > 2")
+    if ndim(a) == 0:
+        raise ValueError("Cannot convert arrays of ndim 0")
     if vnames is None:
         vnames = [str(i) for i in range(shape(a)[0])]
     else:

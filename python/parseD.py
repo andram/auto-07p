@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 # This a class to parse fort.9 files, i.e. the diagnostics from AUTO
 # NOTE:  This is nowhere near done, and it currently only finds the

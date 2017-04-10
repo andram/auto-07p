@@ -1,4 +1,4 @@
-#! /usr/bin/env python 
+#! /usr/bin/env python3
 try:
     from cStringIO import StringIO
     import __builtin__
