@@ -239,7 +239,7 @@ class BasicGrapher(grapher.BasicGrapher):
             if title is not None:
                 self.ax.set_title(title,fontsize=value)
         elif key in ["background", "bg"]:
-            self.ax.set_axis_bgcolor(value)
+            self.ax.set_facecolor(value)
         elif key in ["foreground", "fg"]:
             matplotlib.rcParams["axes.edgecolor"]=self.cget("foreground")
             self.redrawlabels = 1
@@ -611,7 +611,7 @@ class LabeledGrapher(BasicGrapher,grapher.LabeledGrapher):
                 v.append(markerdict[l])
                 kw = {'color': c}
                 if l in ["circle", "square", "diamond", "triangle"]:
-                    kw['mfc'] = self.ax.get_axis_bgcolor()
+                    kw['mfc'] = self.ax.get_facecolor()
                 if l in ["diamond","filldiamond","triangle","doubletriangle"]:
                     kw['ms'] = 8
                 if ms is not None:

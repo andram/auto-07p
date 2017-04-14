@@ -55,7 +55,7 @@ NPAR = 20
 class fileS(object):
     def __init__(self, filename):
         if isinstance(filename, str):
-            inputfile = AUTOutil.openFilename(filename,"rb")
+            inputfile = AUTOutil.openFilename(filename,"r")
         else:
             inputfile = filename
         self.inputfile = inputfile
@@ -117,7 +117,7 @@ class fileS(object):
                 # determine its end.
                 inputfile.seek(start_of_data)
                 if inmemory:
-                    data = "".encode("ascii").join([inputfile.readline()
+                    data = "".join([inputfile.readline()
                                    for i in range(numLinesPerEntry)])
                 else:
                     for i in range(numLinesPerEntry):
@@ -155,7 +155,7 @@ class fileS(object):
         fromstring = Points.fromstring
         if fromstring:
             fdata = []
-            if "D".encode("ascii") not in data:
+            if "D" not in data:
                 fdata = fromstring(data, dtype=float, sep=' ')
             if fdata == [] or len(fdata) != total:
                 fdata = N.array(map(parseB.AUTOatof,
@@ -165,7 +165,7 @@ class fileS(object):
                 #(fromstring may not do this correctly for a
                 #string like -2.05071-106)
                 fdata[-1] = parseB.AUTOatof(
-                    data[data.rfind(" ".encode("ascii"))+1:].strip())
+                    data[data.rfind(" ")+1:].strip())
         else:
             data = data.split()
             try:
@@ -301,9 +301,9 @@ class parseS(list):
         # read all solutions because we may overwrite
         self.read()
         if append:
-            output = open(filename,"ab")
+            output = open(filename,"a")
         else:
-            output = open(filename,"wb")
+            output = open(filename,"w")
         self.write(output,mlab)
         output.close()
 
@@ -861,13 +861,13 @@ class AUTOSolution(UserDict,Points.Pointset):
         # else don't close the input file but garbage collect
 
     def writeFilename(self,filename,mlab=False):
-        output = open(filename,"wb")
+        output = open(filename,"w")
         self.write(output,mlab)
         output.flush()
         output.close()
 
     def writeRawFilename(self,filename):
-        output = open(filename,"wb")
+        output = open(filename,"w")
         self.writeRaw(output)
         output.flush()
         output.close()
@@ -1030,7 +1030,7 @@ class AUTOSolution(UserDict,Points.Pointset):
         except TypeError: #Python 3.0
             def write_enc(s):
                 #write encoded
-                output.write(s.encode("ascii"))
+                output.write(s)
 
         if self.__fullyParsed:
             ndim = len(self.coordarray)
